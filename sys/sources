@@ -1,0 +1,74 @@
+# $Id: sources,v 1.11 2001/11/25 01:03:13 tekhedd Exp $
+# Copyright (C) 2001 Tom Surace. All rights reserved.
+
+# SOURCES for use with BUILD command
+
+TARGETNAME=solowdm
+TARGETPATH=obj
+TARGETTYPE=DRIVER
+DRIVERTYPE=WDM
+
+# Disable optimization on debug builds so we can actually
+# view local variables in softice. I guess the guys at microsoft
+# don't use softice? Or do I belive that
+! if $(FREEBUILD)
+
+# Nothing special
+
+! else
+
+MSC_OPTIMIZATION=
+
+! endif
+
+# Generate softice symbol table automatically
+NTTARGETFILE1=$(TARGETPATH)\*\$(TARGETNAME).NMS
+
+TARGETLIBS=\
+	$(DRIVERWORKS)\lib\*\$(DDKBUILDENV)\vdw_wdm.lib\
+	$(SDK_LIB_PATH)\portcls.lib\
+	$(SDK_LIB_PATH)\libcntpr.lib\
+	$(SDK_LIB_PATH)\ntoskrnl.lib\
+	..\lib\*\stdunk.lib
+
+
+# Put Win2K DDK specific defines in this section.
+!IF "$(LATEST_WIN32_WINNT_VERSION)" == "0x0500"
+
+# Put NT4/Win98 DDK specific defines in this section.
+!ELSE
+
+# Need to create the directory for the output in NT4/Win98
+!	IF [mkdir $(TARGETPATH)\i386\$(DDKBUILDENV)] > 1
+!	ERROR Failed to create output directory.
+!	ENDIF
+
+!ENDIF
+
+# WDM for DriverWorks
+# Everything else for the media port class variants
+#    -D_WIN32 -DUNICODE -D_UNICODE -DUNDER_NT
+#
+C_DEFINES= $(C_DEFINES) -DNTVERSION='WDM' -D_WIN32 -DUNICODE -D_UNICODE
+
+BROWSER_INFO=1
+RCNOFONTMAP=1
+
+# Oddly, the WDM include files include the "punknown.h" header
+# found only in the src\wdm\audio\inc examples directory. Kinky!
+INCLUDES=..\inc;\
+	$(DRIVERWORKS)\include;\
+	 $(DRIVERWORKS)\source;\
+	 $(DRIVERWORKS)\include\dep_vxd
+
+# DriverWOrks classes...not compatible with pclass?  :{
+#        SoloWdmDevice.cpp\
+#        SoloDriver.cpp\
+
+SOURCES=SSSolo.rc\
+        guids.cpp\
+        minwave.cpp\
+        drentry.cpp\
+        adapter.cpp\
+        mintopo.cpp
+

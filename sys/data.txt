@@ -1,0 +1,87 @@
+// 
+// The range of formats supported for a pin. Note that
+// we support one pin with 12 channels out and 10 channels
+// in, 24 bits packed towards the high bit. (8 LSB unused)
+//
+// The formats are documented in ksmedia.h, right? --trs
+//
+// If we accept WAVEFORMATEX we can also expect to maybe see
+// WAVEFORMATEXTENSIBLE
+//
+#define N_DATA_RANGES_STREAM (1)
+static KSDATARANGE_AUDIO PinDataRangesStreamIn[N_DATA_RANGES_STREAM] =
+{
+#ifdef QQQ // comment out
+   { // Legacy non-extensible mode
+        {
+            sizeof(KSDATARANGE_AUDIO),
+            0, // ignored
+            0, // ignored
+            0, // reserved (must be 0)
+            STATICGUIDOF(KSDATAFORMAT_TYPE_AUDIO),
+            STATICGUIDOF(KSDATAFORMAT_SUBTYPE_PCM),
+            STATICGUIDOF(KSDATAFORMAT_SPECIFIER_WAVEFORMATEX)
+        },
+        2,      // Max number of channels.
+        16,     // Minimum number of bits per sample.
+        16,     // Maximum number of bits per channel.
+        9600,   // Minimum rate.
+        96000   // Maximum rate.
+    },
+#endif // QQQ
+    { // General purpose multichannel stuff
+        {
+            sizeof(KSDATARANGE_AUDIO),
+            0, // ignored
+            0, // ignored
+            0, // reserved (must be 0)
+            STATICGUIDOF(KSDATAFORMAT_TYPE_AUDIO),
+            STATICGUIDOF(KSDATAFORMAT_SUBTYPE_PCM),
+            STATICGUIDOF(KSDATAFORMAT_SPECIFIER_WAVEFORMATEX)
+        },
+        12,      // Max number of channels.
+        32,     // Minimum number of bits per sample.
+        32,     // Maximum number of bits per channel.
+        9600,   // Minimum rate.
+        96000   // Maximum rate.
+    }
+};
+
+static KSDATARANGE_AUDIO PinDataRangesStreamOut[N_DATA_RANGES_STREAM] =
+{
+#ifdef QQQ // comment out
+   { // Legacy non-extensible mode
+        {
+            sizeof(KSDATARANGE_AUDIO),
+            0, // ignored
+            0, // ignored
+            0, // reserved (must be 0)
+            STATICGUIDOF(KSDATAFORMAT_TYPE_AUDIO),
+            STATICGUIDOF(KSDATAFORMAT_SUBTYPE_PCM),
+            STATICGUIDOF(KSDATAFORMAT_SPECIFIER_WAVEFORMATEX)
+        },
+        2,      // Max number of channels.
+        16,     // Minimum number of bits per sample.
+        16,     // Maximum number of bits per channel.
+        9600,   // Minimum rate.
+        96000   // Maximum rate.
+    },
+#endif // QQQ
+   {
+        {
+            sizeof(KSDATARANGE_AUDIO),
+            0, // ignored
+            0, // ignored
+            0, // reserved (must be 0)
+            STATICGUIDOF(KSDATAFORMAT_TYPE_AUDIO),
+            STATICGUIDOF(KSDATAFORMAT_SUBTYPE_PCM),
+            STATICGUIDOF(KSDATAFORMAT_SPECIFIER_WAVEFORMATEX)
+        },
+        10,      // Max number of channels.
+        32,      // Minimum number of bits per sample.
+        32,      // Maximum number of bits per channel.
+        9600,    // Minimum rate.
+        96000    // Maximum rate.
+    }
+};
+

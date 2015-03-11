@@ -1,0 +1,18 @@
+#    Copyright (c) 1997-1999 Microsoft Corporation.  All Rights Reserved.
+# $Id: sources,v 1.1.1.1 2001/08/11 05:40:59 tekhedd Exp $
+# Mods copyright(C) 2001 Tom Surace. All rights reserved.
+
+TARGETNAME=stdunk
+TARGETTYPE=LIBRARY
+TARGETPATH=..\lib
+DRIVERTYPE=WDM
+
+INCLUDES=..\inc
+
+MSC_WARNING_LEVEL=-W3 -WX
+
+C_DEFINES=-D_WIN32 -DUNICODE -D_UNICODE
+LINKER_FLAGS=-map
+
+SOURCES=\
+        stdunk.cpp
